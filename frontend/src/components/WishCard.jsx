@@ -1,4 +1,5 @@
 import { ethers } from "ethers";
+import { motion } from "framer-motion";
 
 export default function WishCard({ wish, id, contract, reload, account }) {
   const current = wish.balance
@@ -36,21 +37,33 @@ export default function WishCard({ wish, id, contract, reload, account }) {
     : 0;
 
   return (
-    <div className={`card ${isCompleted ? "completed" : ""}`}>
+    <motion.div 
+      layout
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      whileHover={{ y: -5, borderColor: "rgba(255,255,255,0.2)" }}
+      className={`card ${isCompleted ? "completed" : ""}`}>
       <h3>{wish.title}</h3>
       <p>{wish.description}</p>
 
       <div className="progress-bar">
-        <div className="progress" style={{ width: `${progress}%` }} />
+        <motion.div 
+          className="progress" 
+          initial={{ width: 0 }}
+          animate={{ width: `${progress}%` }}
+          transition={{ duration: 1, ease: "easeOut" }} />
       </div>
 
-      <p>{current} / {goal} ETH</p>
-
-      <div className="actions">
-        <button onClick={fund}>Support</button>
-        <button onClick={claim} disabled={!isCompleted || account !== wish.creator}>Claim</button>
-        <button onClick={remove}>Remove</button>
+      <div className="progress-label">
+        <span>{progress.toFixed(1)}%</span>
+        <span>{current} / {goal} ETH</span>
       </div>
-    </div>
+
+      <div className="actions" style={{ marginTop: '25px', display: 'flex', gap: '10px' }}>
+        <button className="btn-primary" onClick={fund}>Support</button>
+        <button className="btn-outline" onClick={claim} disabled={!isCompleted || account !== wish.creator}>Claim</button>
+        <button className="btn-outline" onClick={remove}>Remove</button>
+      </div>
+    </motion.div>
   );
 }

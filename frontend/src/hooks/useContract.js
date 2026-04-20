@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { ethers } from "ethers";
 import ABI from "../WishBoard.json";
 
-const CONTRACT_ADDRESS = "0x70431629316cB19da39Bea850fa616ECd55ae9f6";
+const CONTRACT_ADDRESS = "0x4F7fd4F6A3F0B662F6944f7Af1469AbBf262dfFc";
 
 export default function useContract() {
   const [contract, setContract] = useState(null);
