@@ -12,15 +12,30 @@ export default function useContract() {
     connect();
   }, []);
 
+  let connecting = false;
+
   const connect = async () => {
-    if (!window.ethereum) return alert("Install MetaMask");
+    if (connecting) return;
+    connecting = true;
+
+    if (!window.ethereum) {
+      alert("Install MetaMask");
+      return;
+    }
 
     const provider = new ethers.BrowserProvider(window.ethereum);
+
+    await window.ethereum.request({
+      method: "eth_requestAccounts"
+    });
+
     const signer = await provider.getSigner();
     const contract = new ethers.Contract(CONTRACT_ADDRESS, ABI, signer);
 
     setContract(contract);
     setAccount(await signer.getAddress());
+
+    connecting = false;
   };
 
   return { contract, account };

@@ -5,6 +5,8 @@ export default function CreateWish({ contract, reload }) {
   const [desc, setDesc] = useState("");
 
   const create = async () => {
+    if (!contract) return alert("Contract not loaded");
+    
     await contract.createWish(title, desc, 3600);
     setTitle("");
     setDesc("");
