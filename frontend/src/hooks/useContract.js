@@ -30,13 +30,15 @@ export default function useContract() {
     });
 
     const signer = await provider.getSigner();
-    const contract = new ethers.Contract(CONTRACT_ADDRESS, ABI, signer);
+    const contract = new ethers.Contract(CONTRACT_ADDRESS, ABI.abi, signer);
 
     setContract(contract);
     setAccount(await signer.getAddress());
 
     connecting = false;
   };
+
+  console.log("ABI:", ABI);
 
   return { contract, account };
 }

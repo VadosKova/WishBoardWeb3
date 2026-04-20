@@ -6,8 +6,9 @@ export default function CreateWish({ contract, reload }) {
 
   const create = async () => {
     if (!contract) return alert("Contract not loaded");
-    
-    await contract.createWish(title, desc, 3600);
+
+    const tx = await contract.createWish(title, desc, 3600);
+    await tx.wait();
     setTitle("");
     setDesc("");
     reload();

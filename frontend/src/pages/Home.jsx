@@ -9,8 +9,22 @@ export default function Home() {
 
   const loadWishes = async () => {
     if (!contract) return;
+
     const data = await contract.getWishes();
-    setWishes(data);
+
+    const formatted = data.map(w => ({
+      creator: w.creator,
+      title: w.title,
+      description: w.description,
+      deadline: Number(w.deadline),
+      balance: w.balance,
+      completed: w.completed,
+      claimed: w.claimed
+    }));
+
+    console.log("FORMATTED:", formatted);
+
+    setWishes(formatted);
   };
 
   useEffect(() => {
