@@ -1,25 +1,32 @@
 import { ethers } from "ethers";
 
-export default function WishCard({ wish, id, contract, reload }) {
+export default function WishCard({ wish, id, contract, reload, account }) {
+  const current = Number(ethers.formatEther(wish.balance));
+  const goal = Number(ethers.formatEther(wish.goal));
+
+  const isCompleted = current >= goal;
+
   const fund = async () => {
-    await contract.fundWish(id, {
+    const tx = await contract.fundWish(id, {
       value: ethers.parseEther("0.01")
     });
-    reload();
-  };
-
-  const complete = async () => {
-    await contract.markCompleted(id);
+    await tx.wait();
     reload();
   };
 
   const claim = async () => {
-    await contract.claimFunds(id);
+    if (!isCompleted) return;
+    const tx = await contract.claimFunds(id);
+    await tx.wait();
   };
 
-  const refund = async () => {
-    await contract.refund(id);
+  const remove = async () => {
+    const tx = await contract.refundAll(id);
+    await tx.wait();
+    reload();
   };
+
+  const progress = Math.min((current / goal) * 100, 100);
 
   return (
     <div className="card">
