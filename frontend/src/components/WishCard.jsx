@@ -1,8 +1,13 @@
 import { ethers } from "ethers";
 
 export default function WishCard({ wish, id, contract, reload, account }) {
-  const current = Number(ethers.formatEther(wish.balance));
-  const goal = Number(ethers.formatEther(wish.goal));
+  const current = wish.balance
+    ? Number(ethers.formatEther(wish.balance))
+    : 0;
+
+  const goal = wish.goal
+    ? Number(ethers.formatEther(wish.goal))
+    : 0;
 
   const isCompleted = current >= goal;
 
