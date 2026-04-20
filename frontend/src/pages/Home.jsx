@@ -18,6 +18,7 @@ export default function Home() {
       description: w.description,
       deadline: Number(w.deadline),
       balance: w.balance,
+      goal: w.goal,
       completed: w.completed,
       claimed: w.claimed
     }));
@@ -34,13 +35,13 @@ export default function Home() {
   return (
     <div className="container">
       <h1>WishBoard</h1>
-      <p>{account}</p>
+      <p>Wallet address: {account}</p>
 
       <CreateWish contract={contract} reload={loadWishes} />
 
       <div className="grid">
         {wishes.map((w, i) => (
-          <WishCard key={i} wish={w} id={i} contract={contract} reload={loadWishes} />
+          <WishCard key={i} wish={w} id={i} contract={contract} reload={loadWishes} account={account} />
         ))}
       </div>
     </div>
