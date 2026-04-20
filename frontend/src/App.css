@@ -110,7 +110,6 @@ input:focus {
   font-weight: 600;
 }
 
-/* Кнопки */
 button {
   cursor: pointer;
   border: none;
@@ -140,4 +139,20 @@ button {
 .btn-outline:hover:not(:disabled) {
   border-color: white;
   background: rgba(255, 255, 255, 0.05);
+}
+
+.balance-card {
+  margin-top: 15px;
+  padding: 15px 20px;
+  background: rgba(0, 255, 153, 0.1);
+  border: 1px solid rgba(0, 255, 153, 0.2);
+  border-radius: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.balance-card strong {
+  color: var(--accent);
+  font-size: 1.2rem;
 }

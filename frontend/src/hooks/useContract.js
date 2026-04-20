@@ -7,6 +7,17 @@ const CONTRACT_ADDRESS = "0x4F7fd4F6A3F0B662F6944f7Af1469AbBf262dfFc";
 export default function useContract() {
   const [contract, setContract] = useState(null);
   const [account, setAccount] = useState("");
+  const [contractBalance, setContractBalance] = useState("0");
+
+  const updateBalance = async (currentContract) => {
+    try {
+      const provider = new ethers.BrowserProvider(window.ethereum);
+      const balance = await provider.getBalance(CONTRACT_ADDRESS);
+      setContractBalance(ethers.formatEther(balance));
+    } catch (err) {
+      console.error("Error fetching contract balance:", err);
+    }
+  };
 
   useEffect(() => {
     connect();
@@ -34,11 +45,12 @@ export default function useContract() {
 
     setContract(contract);
     setAccount(await signer.getAddress());
+    updateBalance();
 
     connecting = false;
   };
 
   console.log("ABI:", ABI);
 
-  return { contract, account };
+  return { contract, account, contractBalance, updateBalance };
 }

@@ -27,9 +27,24 @@ export default function WishCard({ wish, id, contract, reload, account }) {
   };
 
   const remove = async () => {
-    const tx = await contract.refundAll(id);
-    await tx.wait();
-    reload();
+    if (!contract) return;
+
+    if (account.toLowerCase() !== wish.creator.toLowerCase()) {
+      return alert("You are not the creator of this wish");
+    }
+    
+    if (wish.completed) {
+      return alert("Cannot remove a completed wish");
+    }
+
+    try {
+      const tx = await contract.refundAll(id);
+      await tx.wait();
+      reload();
+    } catch (err) {
+      console.error("Error removing wish:", err);
+      alert(`Error: ${err.reason || "Transaction rejected by blockchain"}`);
+    }
   };
 
   const progress = goal > 0

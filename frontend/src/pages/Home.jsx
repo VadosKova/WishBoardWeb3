@@ -4,7 +4,7 @@ import WishCard from "../components/WishCard";
 import CreateWish from "../components/CreateWish";
 
 export default function Home() {
-  const { contract, account } = useContract();
+  const { contract, account, contractBalance, updateBalance } = useContract();
   const [wishes, setWishes] = useState([]);
 
   const loadWishes = async () => {
@@ -26,6 +26,7 @@ export default function Home() {
     console.log("FORMATTED:", formatted);
 
     setWishes(formatted);
+    updateBalance();
   };
 
   useEffect(() => {
@@ -35,7 +36,11 @@ export default function Home() {
   return (
     <div className="container">
       <h1>WishBoard</h1>
-      <p>Wallet address: {account}</p>
+      <p>Metamask address: {account}</p>
+      <div className="balance-card">
+        <span>Contract Balance:</span>
+        <strong> {contractBalance} ETH</strong>
+      </div>
 
       <CreateWish contract={contract} reload={loadWishes} />
 
