@@ -31,7 +31,9 @@ export default function WishCard({ wish, id, contract, reload, account }) {
     reload();
   };
 
-  const progress = Math.min((current / goal) * 100, 100);
+  const progress = goal > 0
+    ? Math.min((current / goal) * 100, 100)
+    : 0;
 
   return (
     <div className={`card ${isCompleted ? "completed" : ""}`}>
