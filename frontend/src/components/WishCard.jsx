@@ -29,17 +29,20 @@ export default function WishCard({ wish, id, contract, reload, account }) {
   const progress = Math.min((current / goal) * 100, 100);
 
   return (
-    <div className="card">
+    <div className={`card ${isCompleted ? "completed" : ""}`}>
       <h3>{wish.title}</h3>
       <p>{wish.description}</p>
 
-      <p>{ethers.formatEther(wish.balance)} ETH</p>
+      <div className="progress-bar">
+        <div className="progress" style={{ width: `${progress}%` }} />
+      </div>
+
+      <p>{current} / {goal} ETH</p>
 
       <div className="actions">
         <button onClick={fund}>Support</button>
-        <button onClick={complete}>Complete</button>
-        <button onClick={claim}>Claim</button>
-        <button onClick={refund}>Refund</button>
+        <button onClick={claim} disabled={!isCompleted || account !== wish.creator}>Claim</button>
+        <button onClick={remove}>Remove</button>
       </div>
     </div>
   );
